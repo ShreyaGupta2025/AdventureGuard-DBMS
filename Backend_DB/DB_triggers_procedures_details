@@ -1,0 +1,27 @@
+| Type           | Count | Example Names                                                                                                                                                     | Real-World Role          |
+| -------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| **Triggers**   | 5     | `trg_update_equipment_status`, `trg_update_total_participants`, `trg_injury_severity_check`, `trg_validate_rating`, `trg_set_equipment_working_after_maintenance` | Automation & validation  |
+| **Procedures** | 5     | `proc_generate_activity_report`, `proc_add_new_participant`, `proc_update_activity_fee`, `proc_equipment_maintenance_summary`, `proc_list_injuries_by_severity`   | Reports & operations     |
+| **Functions**  | 5     | `fn_total_maintenance_cost`, `fn_calculate_age`, `fn_average_instructor_rating`, `fn_total_participants_in_activity`, `fn_injury_count_for_participant`           | Calculations & analytics |
+
+
+
+| Category        | Name                                          | Purpose Summary                                             |
+| --------------- | --------------------------------------------- | ----------------------------------------------------------- |
+| **Trigger 1**   | `trg_update_equipment_status`                 | Marks equipment as under maintenance automatically          |
+| **Trigger 2**   | `trg_update_total_participants`               | Updates total participants after registration               |
+| **Trigger 3**   | `trg_injury_severity_check`                   | Validates severity & logical injury dates                   |
+| **Trigger 4**   | `trg_validate_rating`                         | Checks that rating is between 1 and 5                       |
+| **Trigger 5**   | `trg_set_equipment_working_after_maintenance` | Changes status back to working after maintenance completion |
+
+| **Procedure 1** | `proc_generate_activity_report`               | Generates full activity details & participant list          |
+| **Procedure 2** | `proc_add_new_participant`                    | Adds a participant with validation                          |
+| **Procedure 3** | `proc_update_activity_fee`                    | Updates activity fee dynamically                            |
+| **Procedure 4** | `proc_equipment_maintenance_summary`          | Shows maintenance history & total cost                      |
+| **Procedure 5** | `proc_list_injuries_by_severity`              | Lists injuries filtered by severity                         |
+
+| **Function 1**  | `fn_total_maintenance_cost`                   | Returns total cost of equipment maintenance                 |
+| **Function 2**  | `fn_calculate_age`                            | Returns participant age                                     |
+| **Function 3**  | `fn_average_instructor_rating`                | Returns average rating for instructor                       |
+| **Function 4**  | `fn_total_participants_in_activity`           | Returns count of paid participants per activity             |
+| **Function 5**  | `fn_injury_count_for_participant`             | Returns number of injuries for participant                  |

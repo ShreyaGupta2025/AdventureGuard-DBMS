@@ -1,0 +1,387 @@
+CREATE DATABASE ADVENTURE;
+USE ADVENTURE;
+
+-- Participant Table
+CREATE TABLE Participant (
+    ParticipantID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    DOB DATE NOT NULL,
+    ContactNumber VARCHAR(10) NOT NULL,
+    EmergencyContactName VARCHAR(100) NOT NULL,
+    EmergencyContactNumber VARCHAR(10) NOT NULL
+    -- Removed CHECK constraints for compatibility
+);
+
+CREATE TABLE Instructor (
+    InstructorID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    ContactNumber VARCHAR(10) NOT NULL,
+    ExperienceYears INT DEFAULT 0,
+    Expertise VARCHAR(200)
+);
+
+-- Activity Table
+CREATE TABLE Activity (
+    ActivityID INT AUTO_INCREMENT PRIMARY KEY,
+    ActivityName VARCHAR(100) NOT NULL,
+    ActivityType VARCHAR(50),
+    StartDate DATETIME NOT NULL,
+    EndDate DATETIME NOT NULL,
+    Fees DECIMAL(10,2) DEFAULT 0,
+    InstructorID INT,
+    TotalParticipants INT DEFAULT 0,
+    FOREIGN KEY (InstructorID) REFERENCES Instructor(InstructorID)
+);
+
+
+
+-- Equipment Table
+CREATE TABLE Equipment (
+    EquipmentID INT AUTO_INCREMENT PRIMARY KEY,
+    EquipmentType VARCHAR(100) NOT NULL,
+    Status ENUM('Working','Under Maintenance','Broken') DEFAULT 'Working',
+    LastMaintenanceDate DATE,
+    WarrantyExpiry DATE,
+    DependsOnEquipmentID INT,
+    FOREIGN KEY (DependsOnEquipmentID) REFERENCES Equipment(EquipmentID)
+);
+
+-- Maintenance Log Table
+CREATE TABLE MaintenanceLog (
+    MaintenanceID INT AUTO_INCREMENT PRIMARY KEY,
+    EquipmentID INT NOT NULL,
+    MaintDate DATE NOT NULL,
+    Description TEXT,
+    Technician VARCHAR(100),
+    Cost DECIMAL(10,2) DEFAULT 0,
+    FOREIGN KEY (EquipmentID) REFERENCES Equipment(EquipmentID)
+);
+
+-- Registers Table (Participants <-> Activities)
+CREATE TABLE Registers (
+    ParticipantID INT NOT NULL,
+    ActivityID INT NOT NULL,
+    RegistrationDate DATE DEFAULT (CURRENT_DATE),
+    PaymentStatus ENUM('Yes','No') DEFAULT 'No',
+    PRIMARY KEY (ParticipantID, ActivityID),
+    FOREIGN KEY (ParticipantID) REFERENCES Participant(ParticipantID),
+    FOREIGN KEY (ActivityID) REFERENCES Activity(ActivityID)
+);
+
+-- Injury Table (Weak Entity)
+CREATE TABLE Injury (
+    ParticipantID INT NOT NULL,
+    ActivityID INT NOT NULL,
+    InjuryName VARCHAR(100) NOT NULL,
+    InjuryDate DATE NOT NULL,
+    Severity ENUM('Low','Medium','High','Critical') NOT NULL,
+    Treatment VARCHAR(100),
+    PRIMARY KEY (ParticipantID, InjuryName),
+    FOREIGN KEY (ParticipantID) REFERENCES Participant(ParticipantID),
+    FOREIGN KEY (ActivityID) REFERENCES Activity(ActivityID)
+);
+
+
+-- Rating Table (Participant → Instructor)
+CREATE TABLE Rating (
+    ParticipantID INT NOT NULL,
+    InstructorID INT NOT NULL,
+    RatingValue INT,
+    Comments VARCHAR(255),
+    PRIMARY KEY (ParticipantID, InstructorID),
+    FOREIGN KEY (ParticipantID) REFERENCES Participant(ParticipantID),
+    FOREIGN KEY (InstructorID) REFERENCES Instructor(InstructorID)
+);
+
+-- ActivityEquipment Table (Activity → Equipment)
+CREATE TABLE ActivityEquipment (
+    ActivityID INT NOT NULL,
+    EquipmentID INT NOT NULL,
+    PRIMARY KEY (ActivityID, EquipmentID),
+    FOREIGN KEY (ActivityID) REFERENCES Activity(ActivityID),
+    FOREIGN KEY (EquipmentID) REFERENCES Equipment(EquipmentID)
+);
+
+
+DELIMITER $$
+
+CREATE TRIGGER trg_update_equipment_status
+AFTER INSERT ON MaintenanceLog
+FOR EACH ROW
+BEGIN
+    UPDATE Equipment
+    SET Status = 'Under Maintenance',
+        LastMaintenanceDate = NEW.MaintDate
+    WHERE EquipmentID = NEW.EquipmentID;
+END$$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+
+CREATE TRIGGER trg_update_total_participants
+AFTER INSERT ON Registers
+FOR EACH ROW
+BEGIN
+    IF NEW.PaymentStatus = 'Yes' THEN
+        UPDATE Activity
+        SET TotalParticipants = TotalParticipants + 1
+        WHERE ActivityID = NEW.ActivityID;
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+
+CREATE TRIGGER trg_injury_severity_check
+BEFORE INSERT ON Injury
+FOR EACH ROW
+BEGIN
+    DECLARE act_date DATE;
+
+    -- Fetch activity start date
+    SELECT DATE(StartDate) INTO act_date
+    FROM Activity
+    WHERE ActivityID = NEW.ActivityID;
+
+    -- Check for invalid severity
+    IF UPPER(NEW.Severity) NOT IN ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL') THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Invalid injury severity level!';
+    END IF;
+
+    -- Logical constraint: injury date cannot be before activity start date
+    IF NEW.InjuryDate < act_date THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Injury date cannot be before the activity start date!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER trg_validate_rating
+BEFORE INSERT ON Rating
+FOR EACH ROW
+BEGIN
+    IF NEW.RatingValue < 1 OR NEW.RatingValue > 5 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Rating value must be between 1 and 5';
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+ALTER TABLE MaintenanceLog ADD COLUMN Status ENUM('Ongoing','Completed') DEFAULT 'Ongoing';
+
+DELIMITER $$
+
+CREATE TRIGGER trg_set_equipment_working_after_maintenance
+AFTER UPDATE ON MaintenanceLog
+FOR EACH ROW
+BEGIN
+    IF NEW.Status = 'Completed' THEN
+        UPDATE Equipment
+        SET Status = 'Working'
+        WHERE EquipmentID = NEW.EquipmentID;
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+
+
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE proc_generate_activity_report(IN p_activity_id INT)
+BEGIN
+    DECLARE v_activity_name VARCHAR(100);
+    DECLARE v_instructor_name VARCHAR(100);
+    DECLARE v_start DATETIME;
+    DECLARE v_end DATETIME;
+    DECLARE v_fees DECIMAL(10,2);
+
+    -- Fetch basic activity details
+    SELECT a.ActivityName, i.Name, a.StartDate, a.EndDate, a.Fees
+    INTO v_activity_name, v_instructor_name, v_start, v_end, v_fees
+    FROM Activity a
+    JOIN Instructor i ON a.InstructorID = i.InstructorID
+    WHERE a.ActivityID = p_activity_id;
+
+    -- Print the header
+    SELECT CONCAT('Activity Report for: ', v_activity_name) AS Header;
+    SELECT CONCAT('Instructor: ', v_instructor_name) AS Instructor;
+    SELECT CONCAT('Start Time: ', v_start) AS StartTime;
+    SELECT CONCAT('End Time: ', v_end) AS EndTime;
+    SELECT CONCAT('Fees: ₹', v_fees) AS Fees;
+
+    -- Print participant list
+    SELECT p.ParticipantID, p.Name AS ParticipantName
+    FROM Participant p
+    JOIN Registers r ON p.ParticipantID = r.ParticipantID
+    WHERE r.ActivityID = p_activity_id;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE proc_add_new_participant (
+    IN p_name VARCHAR(100),
+    IN p_dob DATE,
+    IN p_contact VARCHAR(10),
+    IN p_emg_name VARCHAR(100),
+    IN p_emg_contact VARCHAR(10)
+)
+BEGIN
+    IF LENGTH(p_contact) <> 10 OR LENGTH(p_emg_contact) <> 10 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Contact numbers must be 10 digits!';
+    ELSE
+        INSERT INTO Participant (Name, DOB, ContactNumber, EmergencyContactName, EmergencyContactNumber)
+        VALUES (p_name, p_dob, p_contact, p_emg_name, p_emg_contact);
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE proc_update_activity_fee(IN p_activity_id INT, IN p_new_fee DECIMAL(10,2))
+BEGIN
+    UPDATE Activity
+    SET Fees = p_new_fee
+    WHERE ActivityID = p_activity_id;
+    SELECT CONCAT('Updated fee for Activity ID ', p_activity_id, ' to ₹', p_new_fee) AS Message;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE proc_equipment_maintenance_summary(IN p_equipment_id INT)
+BEGIN
+    SELECT m.MaintenanceID, m.MaintDate, m.Description, m.Technician, m.Cost
+    FROM MaintenanceLog m
+    WHERE m.EquipmentID = p_equipment_id;
+
+    SELECT CONCAT('Total Cost: ₹', SUM(Cost)) AS TotalCost
+    FROM MaintenanceLog
+    WHERE EquipmentID = p_equipment_id;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE proc_list_injuries_by_severity(IN p_severity VARCHAR(20))
+BEGIN
+    SELECT p.Name AS ParticipantName, a.ActivityName, i.InjuryName, i.Treatment
+    FROM Injury i
+    JOIN Participant p ON p.ParticipantID = i.ParticipantID
+    JOIN Activity a ON a.ActivityID = i.ActivityID
+    WHERE i.Severity = p_severity;
+END$$
+
+DELIMITER ;
+
+
+
+
+DELIMITER $$
+
+CREATE FUNCTION fn_total_maintenance_cost(p_equipment_id INT)
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    DECLARE v_total DECIMAL(10,2);
+
+    SELECT IFNULL(SUM(Cost), 0)
+    INTO v_total
+    FROM MaintenanceLog
+    WHERE EquipmentID = p_equipment_id;
+
+    RETURN v_total;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE FUNCTION fn_calculate_age(p_participant_id INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE v_age INT;
+    SELECT TIMESTAMPDIFF(YEAR, DOB, CURDATE()) INTO v_age
+    FROM Participant WHERE ParticipantID = p_participant_id;
+    RETURN v_age;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE FUNCTION fn_average_instructor_rating(p_instructor_id INT)
+RETURNS DECIMAL(3,2)
+DETERMINISTIC
+BEGIN
+    DECLARE v_avg DECIMAL(3,2);
+    SELECT ROUND(AVG(RatingValue), 2)
+    INTO v_avg
+    FROM Rating
+    WHERE InstructorID = p_instructor_id;
+    RETURN IFNULL(v_avg, 0);
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE FUNCTION fn_total_participants_in_activity(p_activity_id INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE v_count INT;
+    SELECT COUNT(*) INTO v_count
+    FROM Registers
+    WHERE ActivityID = p_activity_id AND PaymentStatus = 'Yes';
+    RETURN v_count;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE FUNCTION fn_injury_count_for_participant(p_participant_id INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE v_count INT;
+    SELECT COUNT(*) INTO v_count
+    FROM Injury
+    WHERE ParticipantID = p_participant_id;
+    RETURN v_count;
+END$$
+
+DELIMITER ;
+
+
+

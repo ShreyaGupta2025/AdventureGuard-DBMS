@@ -1,0 +1,408 @@
+--SAMPLE DATA INSERTION
+USE ADVENTURE;
+INSERT INTO Instructor (Name, ContactNumber, ExperienceYears, Expertise) VALUES
+('Priya Singh', '9000000001', 5, 'Rock Climbing, CPR'),
+('Ravi Kumar', '9000000002', 8, 'Kayaking, First Aid'),
+('Anita Mehta', '9000000003', 4, 'Yoga, Swimming'),
+('Suresh Rao', '9000000004', 6, 'Rafting, CPR'),
+('Neha Patel', '9000000005', 7, 'Bungee Jumping, Fitness'),
+('Amit Verma', '9000000006', 3, 'Zorbing, Adventure Safety'),
+('Deepika Nair', '9000000007', 5, 'Wall Climbing, First Aid'),
+('Manish Tiwari', '9000000008', 9, 'Paragliding, Skydiving'),
+('Ritu Sharma', '9000000009', 4, 'Cycling, Yoga'),
+('Rakesh Menon', '9000000010', 10, 'Scuba Diving, CPR'),
+('Kiran Joshi', '9000000011', 2, 'Archery, Basic Fitness'),
+('Tanya Bhatia', '9000000012', 6, 'Hiking, Survival Skills'),
+('Vivek Malhotra', '9000000013', 11, 'Snowboarding, Skiing'),
+('Arjun Iyer', '9000000014', 3, 'Kayaking, Snorkeling'),
+('Meena Desai', '9000000015', 8, 'Rock Climbing, Safety Training');
+
+
+INSERT INTO Participant (Name, DOB, ContactNumber, EmergencyContactName, EmergencyContactNumber) VALUES
+('Shreya Gupta', '2003-10-12', '9876543210', 'Neha Gupta', '9876501234'),
+('Amit Sharma', '2001-05-02', '9123456780', 'Sunil Sharma', '9123409876'),
+('Rohan Verma', '2002-07-21', '9012345678', 'Kiran Verma', '9012304567'),
+('Sanya Patel', '2004-02-15', '9812345678', 'Raj Patel', '9812304567'),
+('Vikram Singh', '2000-09-09', '9823456781', 'Preeti Singh', '9823401234'),
+('Nisha Mehta', '2003-03-30', '9923456782', 'Ajay Mehta', '9923405678'),
+('Arjun Rao', '2002-06-18', '9723456783', 'Lakshmi Rao', '9723406789'),
+('Pooja Desai', '2004-11-27', '9623456784', 'Manoj Desai', '9623403456'),
+('Karan Thakur', '2001-12-01', '9523456785', 'Seema Thakur', '9523409876'),
+('Divya Nair', '2003-07-14', '9423456786', 'Ramesh Nair', '9423402345'),
+('Rahul Bhat', '2002-01-05', '9323456787', 'Sunita Bhat', '9323404567'),
+('Aditi Kapoor', '2003-04-22', '9223456788', 'Rohit Kapoor', '9223405678'),
+('Varun Joshi', '2001-10-09', '9123456789', 'Nandita Joshi', '9123406789'),
+('Sneha Reddy', '2004-05-17', '9023456790', 'Vijay Reddy', '9023407890'),
+('Riya Malhotra', '2002-08-28', '9723456791', 'Anil Malhotra', '9723401235');
+
+
+
+INSERT INTO Activity (ActivityName, ActivityType, StartDate, EndDate, Fees, InstructorID) VALUES
+('Rock Climbing - Beginner', 'Climbing', '2025-11-15 09:00:00', '2025-11-15 12:00:00', 500, 1),
+('Kayaking Adventure', 'Kayaking', '2025-11-17 14:00:00', '2025-11-17 17:00:00', 700, 2),
+('Morning Yoga', 'Yoga', '2025-11-20 07:00:00', '2025-11-20 09:00:00', 300, 3),
+('River Rafting', 'Rafting', '2025-11-22 08:00:00', '2025-11-22 12:00:00', 800, 4),
+('Bungee Jumping', 'Jumping', '2025-11-24 10:00:00', '2025-11-24 11:30:00', 1200, 5),
+('Zorbing Fun', 'Zorbing', '2025-11-25 13:00:00', '2025-11-25 15:00:00', 400, 6),
+('Wall Climbing', 'Climbing', '2025-11-26 09:00:00', '2025-11-26 11:00:00', 600, 7),
+('Paragliding', 'Aerial', '2025-11-27 10:00:00', '2025-11-27 12:00:00', 1500, 8),
+('Cycling Challenge', 'Cycling', '2025-11-28 07:00:00', '2025-11-28 09:00:00', 350, 9),
+('Scuba Diving', 'Water', '2025-11-29 08:00:00', '2025-11-29 10:00:00', 2000, 10),
+('Archery Practice', 'Archery', '2025-11-30 09:00:00', '2025-11-30 11:00:00', 250, 11),
+('Mountain Hike', 'Hiking', '2025-12-01 06:00:00', '2025-12-01 13:00:00', 1000, 12),
+('Ski Training', 'Snow', '2025-12-03 09:00:00', '2025-12-03 12:00:00', 1800, 13),
+('Snorkeling', 'Water', '2025-12-04 10:00:00', '2025-12-04 12:00:00', 900, 14),
+('Advanced Rock Climbing', 'Climbing', '2025-12-05 09:00:00', '2025-12-05 13:00:00', 1200, 15);
+
+
+INSERT INTO Equipment (EquipmentType, Status, LastMaintenanceDate, WarrantyExpiry, DependsOnEquipmentID) VALUES
+('Climbing Rope - R01', 'Working', '2025-10-01', '2026-10-01', NULL),
+('Harness - H01', 'Working', '2025-09-20', '2026-09-20', 1),
+('Kayak - K01', 'Working', '2025-10-05', '2026-10-05', NULL),
+('Paddle - P01', 'Working', '2025-09-18', '2026-09-18', 3),
+('Yoga Mat - Y01', 'Working', '2025-08-15', '2026-08-15', NULL),
+('Helmet - H02', 'Working', '2025-10-10', '2026-10-10', NULL),
+('Bungee Cord - B01', 'Working', '2025-09-05', '2026-09-05', NULL),
+('Zorbing Ball - Z01', 'Working', '2025-09-25', '2026-09-25', NULL),
+('Wall Grips - W01', 'Working', '2025-09-30', '2026-09-30', 1),
+('Paraglider - P02', 'Working', '2025-09-27', '2026-09-27', NULL),
+('Cycle - C01', 'Working', '2025-08-30', '2026-08-30', NULL),
+('Oxygen Tank - O01', 'Working', '2025-10-15', '2026-10-15', NULL),
+('Pressure Gauge - PG01', 'Working', '2025-10-20', '2026-10-20', NULL),
+('Snowboard - S01', 'Working', '2025-09-29', '2026-09-29', NULL),
+('Safety Lock - SL01', 'Working', '2025-09-10', '2026-09-10', NULL);
+
+--(Trigger trg_update_equipment_status will fire here)
+INSERT INTO MaintenanceLog (EquipmentID, MaintDate, Description, Technician, Cost) VALUES
+(1, '2025-11-01', 'Replaced outer sheath', 'Vikas Rao', 250.00),
+(2, '2025-11-02', 'Rebuckled harness joints', 'Amit Patel', 300.00),
+(3, '2025-11-03', 'Repaired seat cracks', 'Rahul Jain', 400.00),
+(4, '2025-11-04', 'Polished paddle surface', 'Meera Shah', 150.00),
+(5, '2025-11-05', 'Cleaned yoga mat stock', 'Priya Nair', 100.00),
+(6, '2025-11-06', 'Helmet padding replaced', 'Nikhil Mehta', 120.00),
+(7, '2025-11-07', 'Elasticity test done', 'Arun Rao', 180.00),
+(8, '2025-11-08', 'Reinflated zorbing ball', 'Vivek Sharma', 200.00),
+(9, '2025-11-09', 'Rescrewed wall grips', 'Sanjay Iyer', 210.00),
+(10, '2025-11-10', 'Checked paraglider straps', 'Sneha Pillai', 500.00),
+(11, '2025-11-11', 'Lubricated gear chain', 'Ravi Varma', 130.00),
+(12, '2025-11-12', 'Refilled oxygen tank', 'Vikas Rao', 600.00),
+(13, '2025-11-13', 'Recalibrated gauge', 'Neha Sharma', 160.00),
+(14, '2025-11-14', 'Waxed snowboard base', 'Anjali Gupta', 350.00),
+(15, '2025-11-15', 'Replaced locking spring', 'Devendra Kumar', 280.00);
+
+--(Trigger trg_update_total_participants will fire here for “Yes” payments.)
+INSERT INTO Registers (ParticipantID, ActivityID, PaymentStatus) VALUES
+(1, 1, 'Yes'),
+(2, 1, 'Yes'),
+(3, 2, 'Yes'),
+(4, 3, 'No'),
+(5, 4, 'Yes'),
+(6, 5, 'Yes'),
+(7, 6, 'Yes'),
+(8, 7, 'No'),
+(9, 8, 'Yes'),
+(10, 9, 'Yes'),
+(11, 10, 'Yes'),
+(12, 11, 'Yes'),
+(13, 12, 'No'),
+(14, 13, 'Yes'),
+(15, 14, 'Yes');
+
+--(Trigger trg_injury_severity_check ensures valid severity and date.)
+INSERT INTO Injury (ParticipantID, ActivityID, InjuryName, InjuryDate, Severity, Treatment) VALUES
+(1, 1, 'Knee Sprain', '2025-11-15', 'Low', 'Physiotherapy'),
+(2, 1, 'Finger Cut', '2025-11-15', 'Medium', 'Medication'),
+(3, 2, 'Shoulder Pain', '2025-11-17', 'Low', 'Rest'),
+(4, 3, 'Back Strain', '2025-11-20', 'High', 'Physiotherapy'),
+(5, 4, 'Ankle Twist', '2025-11-22', 'Low', 'Medication'),
+(6, 5, 'Neck Pain', '2025-11-24', 'Medium', 'Rest'),
+(7, 6, 'Minor Bruise', '2025-11-25', 'Low', 'Medication'),
+(8, 7, 'Hand Scratch', '2025-11-26', 'Low', 'Bandage'),
+(9, 8, 'Knee Discomfort', '2025-11-27', 'Low', 'Medication'),
+(10, 9, 'Calf Cramp', '2025-11-28', 'Low', 'Stretching'),
+(11, 10, 'Ear Block', '2025-11-29', 'Low', 'Medication'),
+(12, 11, 'Shoulder Ache', '2025-11-30', 'Medium', 'Physiotherapy'),
+(13, 12, 'Blisters', '2025-12-01', 'Low', 'Medication'),
+(14, 13, 'Leg Sprain', '2025-12-03', 'High', 'Rest'),
+(15, 14, 'Hand Strain', '2025-12-04', 'Low', 'Rest');
+
+
+
+INSERT INTO Rating (ParticipantID, InstructorID, RatingValue, Comments) VALUES
+(1, 1, 5, 'Excellent session!'),
+(2, 2, 4, 'Very safe and fun.'),
+(3, 3, 5, 'Relaxing yoga.'),
+(4, 4, 4, 'Exciting rafting.'),
+(5, 5, 5, 'Great thrill!'),
+(6, 6, 3, 'Good effort.'),
+(7, 7, 5, 'Very supportive.'),
+(8, 8, 4, 'Amazing aerial experience.'),
+(9, 9, 4, 'Fun ride.'),
+(10, 10, 5, 'Beautiful dive.'),
+(11, 11, 3, 'Needs more practice.'),
+(12, 12, 5, 'Tough but rewarding.'),
+(13, 13, 4, 'Well organized.'),
+(14, 14, 5, 'Loved snorkeling!'),
+(15, 15, 5, 'Professional instructor.');
+
+
+INSERT INTO ActivityEquipment (ActivityID, EquipmentID) VALUES
+(1, 1), (1, 2), (1, 9),
+(2, 3), (2, 4),
+(3, 5),
+(4, 6), (4, 7),
+(5, 7),
+(6, 8),
+(7, 9),
+(8, 10),
+(9, 11),
+(10, 12), (10, 13),
+(13, 14), 
+(15, 1);
+
+SHOW DATABASES;
+
+
+
+
+-- Extra paid registrations to make some activities cross 3+ participants
+
+INSERT INTO Registers (ParticipantID, ActivityID, PaymentStatus) VALUES
+(16, 1, 'Yes'),
+(17, 1, 'Yes'),
+(18, 2, 'Yes'),
+(19, 2, 'Yes'),
+(20, 3, 'Yes'),
+(21, 3, 'Yes'),
+(22, 4, 'Yes'),
+(23, 4, 'Yes'),
+(24, 5, 'Yes'),
+(25, 5, 'Yes');
+
+
+-- Make Participant 1 injury-prone
+INSERT INTO Injury (ParticipantID, ActivityID, InjuryName, InjuryDate, Severity, Treatment) VALUES
+(1, 2, 'Elbow Bruise', '2025-12-06', 'Low', 'Bandage'),
+(1, 3, 'Wrist Twist', '2025-12-07', 'Medium', 'Rest'),
+(1, 4, 'Shoulder Spasm', '2025-12-08', 'Low', 'Medication');
+
+-- Make Participant 5 injury-prone
+INSERT INTO Injury (ParticipantID, ActivityID, InjuryName, InjuryDate, Severity, Treatment) VALUES
+(5, 3, 'Muscle Pull', '2025-12-07', 'High', 'Rest'),
+(5, 8, 'Knee Abrasion', '2025-12-08', 'Low', 'Bandage'),
+(5, 9, 'Foot Cramps', '2025-12-09', 'Low', 'Electrolytes');
+
+
+-- Add expensive maintenance to ensure some equipment crosses 500₹ total cost
+INSERT INTO MaintenanceLog (EquipmentID, MaintDate, Description, Technician, Cost) VALUES
+(1, '2025-12-10', 'Major rope replacement', 'Deepak Chauhan', 700.00),
+(3, '2025-12-11', 'Kayak hull patching', 'Ramesh Solanki', 650.00),
+(10, '2025-12-12', 'Paraglider canopy repair', 'Tarun Menon', 800.00);
+INSERT INTO Rating (ParticipantID, InstructorID, RatingValue, Comments) VALUES
+(16, 2, 5, 'Very professional'),
+(17, 2, 4, 'Good guidance'),
+(18, 4, 5, 'Super fun!'),
+(19, 4, 4, 'Safe and exciting'),
+(20, 7, 5, 'Great instructor'),
+(21, 7, 5, 'Highly skilled');
+INSERT INTO Activity (ActivityName, ActivityType, StartDate, EndDate, Fees, InstructorID)
+VALUES
+('Forest Walk', 'Hiking', '2025-12-10 08:00:00', '2025-12-10 11:00:00', 300, 6),
+('Sunset Photography Trek', 'Trekking', '2025-12-12 16:00:00', '2025-12-12 19:00:00', 400, 9),
+('Nature Sketching', 'Art', '2025-12-13 14:00:00', '2025-12-13 17:00:00', 200, 3);
+
+
+
+INSERT INTO Instructor (Name, ContactNumber, ExperienceYears, Expertise) VALUES
+('Zoya Khan', '9000000016', 6, 'Martial Arts, First Aid'),
+('Imran Bashir', '9000000017', 12, 'Skydiving, Jet Skiing'),
+('Leah Fernandes', '9000000018', 4, 'Surfing, CPR'),
+('Kavya Ramesh', '9000000019', 9, 'Mountain Biking, Climbing'),
+('Dylan Matthews', '9000000020', 7, 'Caving, Rappelling'),
+('Roma D’Souza', '9000000021', 5, 'Ziplining, Safety Training'),
+('Kabir Malhotra', '9000000022', 10, 'Waterfall Rappelling, First Aid'),
+('Sarah George', '9000000023', 11, 'Ice Skating, Skiing'),
+('William Joseph', '9000000024', 8, 'Kayaking, Rescue Operations'),
+('Nihar Shah', '9000000025', 3, 'Archery, Athletics');
+
+
+INSERT INTO Participant (Name, DOB, ContactNumber, EmergencyContactName, EmergencyContactNumber) VALUES
+('Mehul Choksi', '2002-11-23', '9876501111', 'Rohit Choksi', '9876502222'),
+('Tanvi Deshpande', '2003-04-19', '9876503333', 'Meera Deshpande', '9876504444'),
+('Sarthak Kulkarni', '2001-12-11', '9876505555', 'Mohan Kulkarni', '9876506666'),
+('Alisha Fernandes', '2004-08-29', '9876507777', 'Clara Fernandes', '9876508888'),
+('Rehan Ali', '2002-06-15', '9876509999', 'Yasmin Ali', '9876510000'),
+('Jahnavi Singh', '2000-01-28', '9876511111', 'Poonam Singh', '9876512222'),
+('Pranav Menon', '2004-03-07', '9876513333', 'Gita Menon', '9876514444'),
+('Siddhi Shah', '2003-10-10', '9876515555', 'Suresh Shah', '9876516666'),
+('Rishi Kapoor', '2001-09-14', '9876517777', 'Asha Kapoor', '9876518888'),
+('Aanya Patel', '2002-05-05', '9876519999', 'Bimal Patel', '9876520000'),
+('Dhruv Khanna', '2003-07-12', '9876521111', 'Nikhil Khanna', '9876522222'),
+('Aarav Mishra', '2004-02-11', '9876523333', 'Shweta Mishra', '9876524444'),
+('Simran Grover', '2001-06-25', '9876525555', 'Ritu Grover', '9876526666'),
+('Eshan Rao', '2000-10-09', '9876527777', 'Manju Rao', '9876528888'),
+('Lina Ghosh', '2003-12-03', '9876529999', 'Soma Ghosh', '9876530000');
+
+
+INSERT INTO Activity (ActivityName, ActivityType, StartDate, EndDate, Fees, InstructorID) VALUES
+('Night Trekking', 'Hiking', '2025-12-10 20:00:00', '2025-12-11 03:00:00', 1500, 16),
+('Surfing Basics', 'Water', '2025-12-12 07:00:00', '2025-12-12 10:00:00', 900, 18),
+('Cave Exploration', 'Caving', '2025-12-13 09:00:00', '2025-12-13 13:00:00', 1300, 20),
+('Zipline Rush', 'Ziplining', '2025-12-14 10:00:00', '2025-12-14 12:00:00', 700, 21),
+('Ice Skating Session', 'Ice', '2025-12-15 08:00:00', '2025-12-15 11:00:00', 600, 23),
+('Mountain Biking Pro', 'Cycling', '2025-12-16 07:00:00', '2025-12-16 11:00:00', 1600, 19),
+('Advanced Kayaking', 'Water', '2025-12-17 09:00:00', '2025-12-17 12:00:00', 1800, 24),
+('Archery Mastery', 'Archery', '2025-12-18 10:00:00', '2025-12-18 12:00:00', 500, 25),
+('Snow Hike', 'Snow', '2025-12-19 06:00:00', '2025-12-19 13:00:00', 2200, 23),
+('Jet Ski Thrill', 'Water', '2025-12-20 14:00:00', '2025-12-20 16:00:00', 2500, 17);
+
+
+INSERT INTO Equipment (EquipmentType, Status, LastMaintenanceDate, WarrantyExpiry, DependsOnEquipmentID) VALUES
+('Trekking Pole - T01', 'Working', '2025-10-15', '2026-10-15', NULL),
+('Surfboard - S02', 'Working', '2025-09-18', '2026-09-18', NULL),
+('Helmet - H03', 'Working', '2025-11-01', '2026-11-01', NULL),
+('Zipline Harness - ZH02', 'Working', '2025-10-20', '2026-10-20', 2),
+('Ice Skates - IS01', 'Working', '2025-11-06', '2026-11-06', NULL),
+('Mountain Bike - MB02', 'Working', '2025-10-29', '2026-10-29', NULL),
+('Kayak Paddle - KP02', 'Working', '2025-11-03', '2026-11-03', 3),
+('Archery Bow - AB01', 'Working', '2025-10-11', '2026-10-11', NULL),
+('Snow Boots - SB01', 'Working', '2025-09-30', '2026-09-30', NULL),
+('Jet Ski - JS01', 'Working', '2025-09-21', '2026-09-21', NULL);
+
+INSERT INTO MaintenanceLog (EquipmentID, MaintDate, Description, Technician, Cost) VALUES
+(16, '2025-11-16', 'Pole tip replaced', 'Raghav Sinha', 120),
+(17, '2025-11-17', 'Surfboard wax applied', 'Elena Dias', 200),
+(18, '2025-11-18', 'New strap added', 'Nihal Kumar', 180),
+(19, '2025-11-19', 'Safety check completed', 'Vishal Singh', 250),
+(20, '2025-11-20', 'Blade sharpened', 'Rina Mehta', 100),
+(21, '2025-11-21', 'Gear alignment done', 'Kabir Rana', 300),
+(22, '2025-11-22', 'Paddle grip replaced', 'Ajay Gupta', 160),
+(23, '2025-11-23', 'String tightened', 'Rohit Varma', 140),
+(24, '2025-11-24', 'Sole replaced', 'Naveen Iyer', 280),
+(25, '2025-11-25', 'Engine tuning', 'Sameer Sheikh', 850);
+
+
+INSERT INTO Injury (ParticipantID, ActivityID, InjuryName, InjuryDate, Severity, Treatment) VALUES
+(16, 16, 'Wrist Sprain', '2025-12-10', 'Medium', 'Bandage'),
+(17, 17, 'Foot Crack', '2025-12-12', 'High', 'Medication'),
+(18, 18, 'Bruised Shoulder', '2025-12-13', 'Low', 'Rest'),
+(19, 19, 'Muscle Pull', '2025-12-14', 'Medium', 'Heat Pack'),
+(20, 20, 'Slip Injury', '2025-12-15', 'Low', 'Ice Pack'),
+(21, 21, 'Bike Fall Bruise', '2025-12-16', 'High', 'Physiotherapy'),
+(22, 22, 'Water Impact', '2025-12-17', 'Low', 'Medication'),
+(23, 23, 'Arrow Scratch', '2025-12-18', 'Medium', 'Bandage'),
+(24, 24, 'Cold Bite', '2025-12-19', 'Low', 'Warmth Rest'),
+(25, 25, 'Jet Ski Fall', '2025-12-20', 'High', 'Hospital Care');
+
+
+INSERT INTO Rating (ParticipantID, InstructorID, RatingValue, Comments) VALUES
+(16, 16, 5, 'Amazing trekking guidance!'),
+(17, 18, 4, 'Loved surfing session'),
+(18, 20, 5, 'Very safe inside the cave'),
+(19, 21, 4, 'Zipline was thrilling'),
+(20, 23, 5, 'Ice skating was smooth'),
+(21, 19, 3, 'Biking needed more demos'),
+(22, 24, 5, 'Great kayak skill improvement'),
+(23, 25, 4, 'Archery was fun'),
+(24, 23, 5, 'Snow hike was majestic'),
+(25, 17, 5, 'Jet ski experience was top-notch');
+
+INSERT INTO Registers (ParticipantID, ActivityID, PaymentStatus) VALUES
+(16, 16, 'Yes'),
+(17, 17, 'Yes'),
+(18, 18, 'No'),
+(19, 19, 'Yes'),
+(20, 20, 'Yes'),
+(21, 21, 'No'),
+(22, 22, 'Yes'),
+(23, 23, 'No'),
+(24, 24, 'Yes'),
+(25, 25, 'Yes');
+
+
+INSERT INTO ActivityEquipment (ActivityID, EquipmentID) VALUES
+(16, 16),
+(17, 17),
+(18, 18),
+(19, 19),
+(20, 20),
+(21, 21),
+(22, 22),
+(23, 23),
+(24, 24),
+(25, 25);
+
+
+INSERT INTO Instructor (Name, ContactNumber, ExperienceYears, Expertise) VALUES
+('Kabir Rana', '9000001011', 12, 'Mountain Biking, Rescue Ops'),
+('Ishita Pillai', '9000001012', 5, 'Aqua Aerobics, Safety Training'),
+('Yuvraj Shekhawat', '9000001013', 9, 'Ski Patrol, Avalanche Safety'),
+('Natasha Fernandes', '9000001014', 7, 'Surfing, Basic CPR'),
+('Omkar Patil', '9000001015', 4, 'Rock Climbing, Trek Lead'),
+('Roshni Jain', '9000001016', 3, 'Obstacle Course Instructor'),
+('Samar D’Silva', '9000001017', 10, 'Scuba Diving, Deep-sea Rescue'),
+('Aarav Kapoor', '9000001018', 6, 'Paragliding, Drone Mapping');
+
+INSERT INTO Participant (Name, DOB, ContactNumber, EmergencyContactName, EmergencyContactNumber) VALUES
+('Kabir Mehta', '2001-04-11', '9800000011', 'Rita Mehta', '9800000911'),
+('Diya Rao', '2003-12-21', '9800000012', 'Vishal Rao', '9800000912'),
+('Kunal Jain', '2004-03-19', '9800000013', 'Poonam Jain', '9800000913'),
+('Lavanya Sethi', '2002-06-10', '9800000014', 'Suresh Sethi', '9800000914'),
+('Raghav Malhotra', '2000-10-08', '9800000015', 'Mona Malhotra', '9800000915'),
+('Anjali Yadav', '2001-07-01', '9800000016', 'Sanjay Yadav', '9800000916'),
+('Vedant Singh', '2004-02-05', '9800000017', 'Mamta Singh', '9800000917'),
+('Charu Nambiar', '2002-09-09', '9800000018', 'Shankar Nambiar', '9800000918');
+
+INSERT INTO Activity (ActivityName, ActivityType, StartDate, EndDate, Fees, InstructorID) VALUES
+('Snow Trekking', 'Snow', '2025-12-10 06:00:00', '2025-12-10 14:00:00', 1600, 26),
+('Night Cycling Marathon', 'Cycling', '2025-12-11 20:00:00', '2025-12-12 02:00:00', 900, 24),
+('Advanced Kayaking', 'Water', '2025-12-12 09:00:00', '2025-12-12 12:00:00', 1200, 27),
+('Jungle Survival Workshop', 'Survival', '2025-12-13 08:00:00', '2025-12-13 17:00:00', 1800, 28),
+('Urban Parkour Basics', 'Parkour', '2025-12-14 09:00:00', '2025-12-14 11:30:00', 600, 23);
+
+
+
+INSERT INTO Equipment (EquipmentType, Status, WarrantyExpiry, DependsOnEquipmentID) VALUES
+('Thermal Jacket - TJ01', 'Working', '2026-10-01', NULL),
+('Climbing Shoes - CS02', 'Broken', '2026-08-14', NULL),
+('Kayak Helmet - KH22', 'Working', '2026-09-01', 6),
+('Snow Axe - SA11', 'Working', '2026-12-12', NULL),
+('Waterproof Bag - WB09', 'Broken', '2026-05-17', NULL),
+('Trail Compass - TC05', 'Working', '2026-03-01', NULL);
+
+INSERT INTO MaintenanceLog (EquipmentID, MaintDate, Description, Technician, Cost) VALUES
+(3, '2025-12-01', 'Seat strap fix', 'Imran Pathan', 250),
+(10, '2025-12-05', 'Wing cloth tightening', 'Sameer Sheikh', 450),
+(12, '2025-12-07', 'Valve inspection', 'Nikhil Rao', 300),
+(14, '2025-12-09', 'Blade sharpening', 'Arvind Sen', 180);
+
+
+INSERT INTO Registers (ParticipantID, ActivityID, PaymentStatus) VALUES
+(21, 1, 'Yes'),
+(22, 1, 'Yes'),
+(23, 2, 'Yes'),
+(24, 2, 'No'),
+(25, 3, 'Yes'),
+(26, 3, 'Yes'),
+(27, 4, 'Yes'),
+(28, 4, 'Yes'),
+(29, 5, 'No'),
+(30, 6, 'Yes'),
+(31, 7, 'No'),
+(32, 8, 'Yes');
+
+
+INSERT INTO Injury (ParticipantID, ActivityID, InjuryName, InjuryDate, Severity, Treatment) VALUES
+(21, 1, 'Elbow Graze', '2025-12-10', 'Low', 'Bandage'),
+(22, 2, 'Shoulder Pull', '2025-12-10', 'Medium', 'Rest'),
+(23, 4, 'Foot Fracture', '2025-12-11', 'High', 'Cast'),
+(24, 5, 'Altitude Sickness', '2025-12-11', 'Critical', 'Oxygen Support'),
+(25, 6, 'Muscle Tear', '2025-12-12', 'High', 'Physiotherapy');
+
+
+INSERT INTO Rating (ParticipantID, InstructorID, RatingValue, Comments) VALUES
+(21, 26, 4, 'Very challenging trek!'),
+(22, 27, 5, 'Loved the advanced kayaking!'),
+(23, 28, 3, 'Good workshop, learned skills.'),
+(24, 25, 5, 'Amazing night cycling!'),
+(25, 23, 4, 'Fun and energetic session.');
